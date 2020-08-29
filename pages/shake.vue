@@ -5,11 +5,15 @@
       <h1 class="title">
         shake!
       </h1>
-      <div class="links">
+      <div v-if="status === 'init'">
+        <button v-on:click="startShake">シェイク開始!</button>
+      </div>
+      <div v-else-if="status === 'shake'" class="links">
         <p>振った回数</p>
         <p>{{ shake_count }}</p>
-        <p v-if="0 < total_time">{{ total_time / 1000 }}秒</p>
+        <p>{{ total_time / 1000 }}秒</p>
       </div>
+      <div v-else>仮設のなんか(結果表示 or いろいろなボタン設置用)</div> 
     </div>
   </div>
 </template>
@@ -18,22 +22,13 @@
 export default {
   data () {
     return {
+      status : "init",
       size : 28, // 加速度で良さそうな数値 これを超えたら一回とする 
       start_time : 0,
-      end_time : 0,
       total_time : 0,
       shake_count : 0
     }
   }, 
-  computed : {
-    total_time : function () {
-      this.end_time - this.start_time;
-    }
-  },
-  mounted : function () {
-    this.end_time = performance.now();
-    this.addDevicemotion();
-  },
   methods : {
     addDevicemotion() {
       window.addEventListener('devicemotion', this.shake, false);
@@ -42,8 +37,9 @@ export default {
       window.removeEventListener('devicemotion', this.shake, false);
     },
     shake(e) {
-      if (this.start_time === 0) this.start_time = performance.now();
       const y = e.acceleration.y;
+      const end_time = performance.now();
+      this.total_time = end_time - this.start_time;
       
       if (0 < this.size) { 
         if (this.size < y) { 
@@ -57,10 +53,14 @@ export default {
       }
 
       if (30 <= this.shake_count) {
-        this.end_time = performance.now();
-        this.total_time = this.end_time - this.start_time;
         this.removeDevicemotion();
+        this.status = "hoge"; // 終了後のステータス
       }
+    },
+    startShake() {
+      this.status = "shake";
+      this.start_time = performance.now();
+      this.addDevicemotion();
     }
   }
 }
