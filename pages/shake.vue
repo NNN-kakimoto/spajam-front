@@ -1,17 +1,15 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
-      <h1 class="title">
-        shake!
-      </h1>
+      <strong>{{ total_time_min }} : {{ total_time_s }} : {{ total_time_ms }}</strong><br>
+      <strong>{{ shake_count }}回</strong><br>
+      <img src="~/static/sports_protein_shaker.png" alt="シェイカーの画像">
+
       <div v-if="status === 'init'">
         <button v-on:click="startShake">シェイク開始!</button>
       </div>
-      <div v-else-if="status === 'shake'" class="links">
-        <p>振った回数</p>
-        <p>{{ shake_count }}</p>
-        <p>{{ total_time / 1000 }}秒</p>
+      <div v-else-if="status === 'shake'">
+        
       </div>
       <div v-else>
         <button v-on:click="goVibrator">ブルブルする</button>
@@ -33,11 +31,21 @@ export default {
       shake_count : 0
     }
   },
-  // computed: {
-  //   ...mapState({
-  //     messageData: state => state.message.data
-  //   })
-  // },
+  computed: {
+    // ...mapState({
+    //   messageData: state => state.message.data
+    // })
+    total_time_min : function () {
+      return ("00" + Math.floor(Math.floor(this.total_time / 1000) / 60)).slice(-2);
+    },
+    total_time_s : function () {
+      return ("00" + Math.floor(this.total_time / 1000) % 60).slice(-2);
+    },
+    total_time_ms : function () {
+      // return ("00" + (this.total_time / 1000 - Math.floor(this.total_time / 1000)));
+      return ("00" + String(this.total_time / 1000 - Math.floor(this.total_time / 1000)).substr(2,2)).slice(-2);
+    }
+  },
   methods : {
     addDevicemotion() {
       window.addEventListener('devicemotion', this.shake, false);
@@ -114,34 +122,11 @@ export default {
   align-items: center;
   text-align: center;
 }
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+strong {
+  font-size : 170%;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+img {
+  width : 70%;
+  height : 50%;
 }
 </style>
