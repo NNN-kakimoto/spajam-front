@@ -72,6 +72,8 @@ export default {
       if (30 <= this.shake_count) {
         this.removeDevicemotion();
         this.status = "hoge"; // 終了後のステータス
+        // シェイク終了のお知らせ
+        navigator.vibrate([500])
       }
     },
     startShake() {
@@ -93,13 +95,13 @@ export default {
     calcIyashiPoint() {
       // ミリ秒でバイブさせる長さを生成する
       // 基準値　time(s)
-      // 振り切る時間と基準値が同じ 8sバイブ
       // min 0s, max 15s
       const standardTime = 10
-      const calc = standardTime - this.total_time / 1000
-      return parseInt(15 / (1 + 1.2**-(calc - 8)))
+      const calc = parseInt(standardTime - this.total_time / 1000)
+      return parseInt(15 / (1 + 1.2**-calc)) * 1000
     },
     goVibrator() {
+      
       // 内部的に保存する
       // this.message = '保存したよ'
       this.$store.dispatch('score/regist', this.calcIyashiPoint());
