@@ -2,11 +2,18 @@
   <div class="container">
     <div>
       <Logo />
-      <h1 class="title" v-text="title"></h1>
-      <div class="links">
-        <p>降った回数</p>
-        <p>{{ shake_count }}</p>
+      <h1 class="title">
+        shake!
+      </h1>
+      <div v-if="status === 'init'">
+        <button v-on:click="startShake">シェイク開始!</button>
       </div>
+      <div v-else-if="status === 'shake'" class="links">
+        <p>振った回数</p>
+        <p>{{ shake_count }}</p>
+        <p>{{ total_time / 1000 }}秒</p>
+      </div>
+      <div v-else>仮設のなんか(結果表示 or いろいろなボタン設置用)</div> 
     </div>
   </div>
 </template>
@@ -15,44 +22,45 @@
 export default {
   data () {
     return {
-      title : "shake",
+      status : "init",
+      size : 28, // 加速度で良さそうな数値 これを超えたら一回とする 
+      start_time : 0,
+      total_time : 0,
       shake_count : 0
     }
   }, 
-  mounted : function () {
-    this.addDevicemotion();
-  },
   methods : {
     addDevicemotion() {
-      this.shake();
-      // window.addEventListener('devicemotion', this.shake);
+      window.addEventListener('devicemotion', this.shake, false);
     },
-    hoge(e) {
-      alert("hoge"); 
-      console.log(this.shake_count);
-      console.log(e.acceleration.x) // x軸
-      console.log(e.acceleration.y) // y軸
-      console.log(e.acceleration.z)
+    removeDevicemotion() {
+      window.removeEventListener('devicemotion', this.shake, false);
     },
-    shake() {
-      var y; // 縦方向の加速度を取得するための変数
-      var size = 35; // 振ったと認識するサイズ
-      var shakeFlag = true; // trueであればcountをプラス、falseであればマイナスにするためのフラグ
-      var count = 0; // 振ったらこれがたまる。たまった量に応じて何かする
-      var self = this;
-      window.addEventListener('devicemotion',  function (event) {
-        // 加速度 Y軸
-        y = event.acceleration.y;
-        
-        // 加速度が、sizeに指定した量より大きいもしくは-sizeより小さいときに、countを操作
-        if (y < -size || y > size) {
-          if (shakeFlag) {
-            self.shake_count++;
-          } else {
-            self.shake_count--;
-          }
+    shake(e) {
+      const y = e.acceleration.y;
+      const end_time = performance.now();
+      this.total_time = end_time - this.start_time;
+      
+      if (0 < this.size) { 
+        if (this.size < y) { 
+          this.shake_count++;
+          this.size = -this.size;
         }
-      });
+      } else {
+        if (y < this.size) {
+          this.size = -this.size;
+        }
+      }
+
+      if (30 <= this.shake_count) {
+        this.removeDevicemotion();
+        this.status = "hoge"; // 終了後のステータス
+      }
+    },
+    startShake() {
+      this.status = "shake";
+      this.start_time = performance.now();
+      this.addDevicemotion();
     }
   }
 }
