@@ -35,6 +35,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    { src: '~/plugins/nuxt-client-init', mode: 'client' }
   ],
   /*
   ** Auto import components
@@ -55,6 +56,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    'nuxt-client-init-module',
   ],
   /*
   ** Axios module configuration

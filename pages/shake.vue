@@ -13,22 +13,31 @@
         <p>{{ shake_count }}</p>
         <p>{{ total_time / 1000 }}秒</p>
       </div>
-      <div v-else>仮設のなんか(結果表示 or いろいろなボタン設置用)</div> 
+      <div v-else>
+        <button v-on:click="goVibrator">ブルブルする</button>
+      </div> 
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
       status : "init",
+      // message: ''
       size : 28, // 加速度で良さそうな数値 これを超えたら一回とする 
       start_time : 0,
       total_time : 0,
       shake_count : 0
     }
-  }, 
+  },
+  // computed: {
+  //   ...mapState({
+  //     messageData: state => state.message.data
+  //   })
+  // },
   methods : {
     addDevicemotion() {
       window.addEventListener('devicemotion', this.shake, false);
@@ -61,6 +70,29 @@ export default {
       this.status = "shake";
       this.start_time = performance.now();
       this.addDevicemotion();
+    },
+    // regist() {
+    //   if (this.message) {
+    //     this.$store.dispatch('message/regist', this.message);
+    //     this.message = '';
+    //   }
+    // },
+    // remove(payload) {
+    //   if (window.confirm('削除しますか？')) {
+    //     this.$store.dispatch('message/remove', payload);
+    //   }
+    // },
+    calcIyashiPoint() {
+      // ミリ秒でバイブさせる長さを生成する
+      return this.shake_count * 100; // 時間取得されたタイミングで式は変える
+    },
+    goVibrator() {
+      // 内部的に保存する
+      // this.message = '保存したよ'
+      this.$store.dispatch('score/regist', this.calcIyashiPoint());
+      // this.regist()
+      // vibratior.vueに移動
+      this.$router.push('/vibrator');
     }
   }
 }
