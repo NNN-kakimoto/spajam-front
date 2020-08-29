@@ -2,7 +2,9 @@
   <div class="container">
     <div>
       <Logo />
-      <h1 class="title" v-text="title"></h1>
+      <h1 class="title">
+        shake!
+      </h1>
       <div class="links">
         <p>降った回数</p>
         <p>{{ shake_count }}</p>
@@ -15,7 +17,9 @@
 export default {
   data () {
     return {
-      title : "shake",
+      size : 28, // 加速度で良さそうな数値 これを超えたら一回とする 
+      start_time : 0,
+      end_time : 0,
       shake_count : 0
     }
   }, 
@@ -24,35 +28,21 @@ export default {
   },
   methods : {
     addDevicemotion() {
-      this.shake();
-      // window.addEventListener('devicemotion', this.shake);
+      window.addEventListener('devicemotion', this.shake);
     },
-    hoge(e) {
-      alert("hoge"); 
-      console.log(this.shake_count);
-      console.log(e.acceleration.x) // x軸
-      console.log(e.acceleration.y) // y軸
-      console.log(e.acceleration.z)
-    },
-    shake() {
-      var y; // 縦方向の加速度を取得するための変数
-      var size = 35; // 振ったと認識するサイズ
-      var shakeFlag = true; // trueであればcountをプラス、falseであればマイナスにするためのフラグ
-      var count = 0; // 振ったらこれがたまる。たまった量に応じて何かする
-      var self = this;
-      window.addEventListener('devicemotion',  function (event) {
-        // 加速度 Y軸
-        y = event.acceleration.y;
-        
-        // 加速度が、sizeに指定した量より大きいもしくは-sizeより小さいときに、countを操作
-        if (y < -size || y > size) {
-          if (shakeFlag) {
-            self.shake_count++;
-          } else {
-            self.shake_count--;
-          }
+    shake(e) {
+      const y = e.acceleration.y;
+      
+      if (0 < this.size) { 
+        if (this.size < y) { 
+          this.shake_count++;
+          this.size = -this.size;
         }
-      });
+      } else {
+        if (y < this.size) {
+          this.size = -this.size;
+        }
+      }
     }
   }
 }
