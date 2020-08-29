@@ -42,6 +42,8 @@ export default {
       navigator.vibrate([shakeScore])
       this.countDown = shakeScore
       this.countDownTimer()
+      // 内部のスコアをゼロ値で保存する
+      this.$store.dispatch('score/remove')
       // 編集が終わったらターミナルで
       // npm run generate
     },
