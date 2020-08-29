@@ -6,19 +6,27 @@
       <div class="links">
         <p>降った回数</p>
         <p>{{ shake_count }}</p>
+        <button @click="goVibrator">ブルブルする</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
       title : "shake",
-      shake_count : 0
+      shake_count : 0,
+      // message: ''
     }
-  }, 
+  },
+  // computed: {
+  //   ...mapState({
+  //     messageData: state => state.message.data
+  //   })
+  // },
   mounted : function () {
     this.addDevicemotion();
   },
@@ -53,6 +61,29 @@ export default {
           }
         }
       });
+    },
+    // regist() {
+    //   if (this.message) {
+    //     this.$store.dispatch('message/regist', this.message)
+    //     this.message = ''
+    //   }
+    // },
+    // remove(payload) {
+    //   if (window.confirm('削除しますか？')) {
+    //     this.$store.dispatch('message/remove', payload)
+    //   }
+    // },
+    calcIyashiPoint(){
+      // ミリ秒でバイブさせる長さを生成する
+      return this.shake_count * 100 // 時間取得されたタイミングで式は変える
+    },
+    goVibrator(){
+      // 内部的に保存する
+      // this.message = '保存したよ'
+      this.$store.dispatch('score/regist', this.calcIyashiPoint())
+      // this.regist()
+      // vibratior.vueに移動
+      this.$router.push('/vibrator')
     }
   }
 }
