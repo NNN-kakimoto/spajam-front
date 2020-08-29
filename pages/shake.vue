@@ -84,7 +84,12 @@ export default {
     // },
     calcIyashiPoint() {
       // ミリ秒でバイブさせる長さを生成する
-      return this.shake_count * 100; // 時間取得されたタイミングで式は変える
+      // 基準値　time(s)
+      // 振り切る時間と基準値が同じ 8sバイブ
+      // min 0s, max 15s
+      const standardTime = 10
+      const calc = standardTime - this.total_time / 1000
+      return parseInt(15 / (1 + 1.2**-(calc - 8)))
     },
     goVibrator() {
       // 内部的に保存する
