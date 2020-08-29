@@ -6,8 +6,9 @@
         shake!
       </h1>
       <div class="links">
-        <p>降った回数</p>
+        <p>振った回数</p>
         <p>{{ shake_count }}</p>
+        <p v-if="0 < total_time">{{ total_time / 1000 }}秒</p>
       </div>
     </div>
   </div>
@@ -20,17 +21,28 @@ export default {
       size : 28, // 加速度で良さそうな数値 これを超えたら一回とする 
       start_time : 0,
       end_time : 0,
+      total_time : 0,
       shake_count : 0
     }
   }, 
+  computed : {
+    total_time : function () {
+      this.end_time - this.start_time;
+    }
+  },
   mounted : function () {
+    this.end_time = performance.now();
     this.addDevicemotion();
   },
   methods : {
     addDevicemotion() {
-      window.addEventListener('devicemotion', this.shake);
+      window.addEventListener('devicemotion', this.shake, false);
+    },
+    removeDevicemotion() {
+      window.removeEventListener('devicemotion', this.shake, false);
     },
     shake(e) {
+      if (this.start_time === 0) this.start_time = performance.now();
       const y = e.acceleration.y;
       
       if (0 < this.size) { 
@@ -42,6 +54,12 @@ export default {
         if (y < this.size) {
           this.size = -this.size;
         }
+      }
+
+      if (30 <= this.shake_count) {
+        this.end_time = performance.now();
+        this.total_time = this.end_time - this.start_time;
+        this.removeDevicemotion();
       }
     }
   }
