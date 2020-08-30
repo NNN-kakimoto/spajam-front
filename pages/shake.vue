@@ -6,13 +6,13 @@
       <img src="~/static/sports_protein_shaker.png" alt="シェイカーの画像">
 
       <div v-if="status === 'init'">
-        <button v-on:click="startShake">シェイク開始!</button>
+        <button class="btn" v-on:click="startShake">シェイク開始!</button>
       </div>
       <div v-else-if="status === 'shake'">
         
       </div>
       <div v-else>
-        <button v-on:click="goVibrator">ブルブルする</button>
+        <button class="btn" v-on:click="goVibrator">ブルブルする</button>
       </div> 
     </div>
   </div>
@@ -104,7 +104,9 @@ export default {
       
       // 内部的に保存する
       // this.message = '保存したよ'
-      this.$store.dispatch('score/regist', this.calcIyashiPoint());
+      this.$store.dispatch('score/regist', this.total_time());
+      this.$store.dispatch('totalScore/regist', this.calcIyashiPoint());
+      // this.$store.dispatch('score/regist', this.calcIyashiPoint());
       // this.regist()
       // vibratior.vueに移動
       this.$router.push('/vibrator');
@@ -128,5 +130,15 @@ strong {
 img {
   width : 70%;
   height : 50%;
+}
+.btn{
+  border-radius: 24px;
+  color: white;
+  background-color: #3B4043;
+  width: 148px;
+  height: 48px;
+  padding: 12px 24px;
+  margin-top: 40px;
+  background-color: #004BB1;
 }
 </style>
