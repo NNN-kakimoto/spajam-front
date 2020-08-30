@@ -1,14 +1,17 @@
 <template>
   <div class="container">
-    <div>
-      <h1 class="title">
-        バイブレータ
-      </h1>
-      <div class="links">
-        <button @click="viberate(shakeScore)">振動!w</button>
-        <p>{{text}}</p>
-        <p>{{countDown}}</p>
-        <p>shakeScore: {{shakeScore}}</p>
+    <div v-if="isInisialView">
+      <p>{{countDown}}</p>
+      <img class="women_image" src="~/static/massage_machine_woman.png" alt="シェイカーの画像"><br>
+      <button class="btn" @click="viberate(shakeScore)">ブルブルする！</button>
+    </div>
+    <div v-else>
+      <img class="women_image" src="~/static/massage_machine_woman.png" alt="シェイカーの画像"><br>
+      <div>
+        <n-link class="btn" to="/register">スコアを登録する</n-link>
+      </div>
+      <div>
+        <n-link class="btn" to="/">トップへ戻る</n-link>
       </div>
     </div>
   </div>
@@ -21,12 +24,13 @@ export default {
     // shakeScore: 1000,
     // shakeScore: null,
     countDown: 0,
-    text: ''
+    text: '',
+    isInisialView: true
   }),
   computed: {
     ...mapState({
       // messageData: state => state.message.data,
-      shakeScore: state => parseInt(state.score.data)
+      shakeScore: state => parseInt(state.totalScore.data)
     })
   },
   mounted : function () {
@@ -43,9 +47,10 @@ export default {
       this.countDown = shakeScore
       this.countDownTimer()
       // 内部のスコアをゼロ値で保存する
-      this.$store.dispatch('score/remove')
+      this.$store.dispatch('totalScore/remove')
       // 編集が終わったらターミナルで
       // npm run generate
+      this.status='vibrated'
     },
     countDownTimer() {
       if(this.countDown > 0) {
@@ -97,5 +102,19 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+.women_image{
+  max-width: 100%;
+}
+
+.btn{
+  border-radius: 24px;
+  color: white;
+  background-color: #3B4043;
+  width: 158px;
+  height: 48px;
+  padding: 12px 22px;
+  margin-top: 40px;
+  background-color: #004BB1;
 }
 </style>

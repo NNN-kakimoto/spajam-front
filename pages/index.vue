@@ -10,12 +10,12 @@
     </div>
     <div class="mt-5">
       <div>
-        <router-link to ="/ranking">
+        <router-link to="/ranking">
           <button type="button" class="btn btn-secondary">ランキング</button>
         </router-link>
       </div>
       <div class="mt-2">
-        <router-link to ="/">
+        <router-link to="/stock">
           <button type="button" class="btn btn-light">癒しポイント確認</button>
         </router-link>
       </div>
