@@ -15,7 +15,7 @@
         </router-link>
       </div>
       <div class="mt-2">
-        <router-link to ="/stock">
+        <router-link to="/stock">
           <button type="button" class="btn btn-light">癒しポイント確認</button>
         </router-link>
       </div>
