@@ -9,8 +9,8 @@
       </router-link>
     </div>
     <div class="mt-5">
-      <div v-if="false">
-        <router-link to ="/">
+      <div>
+        <router-link to ="/ranking">
           <button type="button" class="btn btn-secondary">ランキング</button>
         </router-link>
       </div>
