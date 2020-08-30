@@ -29,7 +29,7 @@
   border-radius: 24px;
   color: white;
   background-color: #3B4043;
-  width: 148px;
+  width: 180px;
   height: 48px;
   padding: 12px 24px;
   margin-top: 40px;

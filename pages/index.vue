@@ -1,7 +1,6 @@
 <template>
   <div class="mt-4">
-    <h1 class="h1">Shaker</h1>
-    <img src="~/static/sports_protein_man.png" class="image">
+    <img src="~/static/icon.png" class="image">
     <p>プロテインを作りますか?</p>
     <div>
       <router-link to ="/shake">
@@ -29,7 +28,7 @@ export default {}
 
 <style scoped>
 .image {
-  width: 80%;
+  width: 35%;
 }
 .btn{
   border-radius: 24px;
