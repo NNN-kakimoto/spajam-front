@@ -6,9 +6,9 @@
       <img src="~/static/sports_protein_shaker.png" alt="シェイカーの画像">
 
       <div v-if="status === 'init'">
-        <button v-on:click="startShake">シェイク開始!</button>
+        <button class="btn" v-on:click="startShake">シェイク開始!</button>
       </div>
-      <div class="btn" v-else-if="status === 'shake'">
+      <div v-else-if="status === 'shake'">
         
       </div>
       <div v-else>
