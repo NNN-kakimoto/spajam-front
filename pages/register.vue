@@ -3,7 +3,7 @@
     <div>
       <h1 class="h1">スコア</h1>
       <h1 class="h1">表示名</h1>
-      <td><input type="text" name="name" placeholder="キーワードを入力" size="40" maxlength="20"></td>
+      <td><input type="text" name="name" placeholder="キーワードを入力" size="size" maxlength="20"></td>
       <div>
         <p class="btn register">登録</p>
       </div>

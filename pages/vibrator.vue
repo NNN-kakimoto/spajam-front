@@ -42,6 +42,7 @@ export default {
       // とりあえず 300 渡して 渡されたintの値 * ミリ秒 振動するのを目指す。
       this.text = 'バイブ実行中！'
       console.log(shakeScore)
+      this.isInisialView=false
       
       navigator.vibrate([shakeScore])
       this.countDown = shakeScore
@@ -50,7 +51,6 @@ export default {
       this.$store.dispatch('totalScore/remove')
       // 編集が終わったらターミナルで
       // npm run generate
-      this.status='vibrated'
     },
     countDownTimer() {
       if(this.countDown > 0) {
