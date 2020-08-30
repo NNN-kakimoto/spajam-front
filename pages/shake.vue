@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div>
+      <button @click="goVibrator_test">test</button>
       <strong>{{ total_time_min }} : {{ total_time_s }} : {{ total_time_ms }}</strong><br>
       <strong>{{ shake_count }}回</strong><br>
       <img src="~/static/sports_protein_shaker.png" alt="シェイカーの画像">
@@ -100,12 +101,22 @@ export default {
       const calc = parseInt(standardTime - this.total_time / 1000)
       return parseInt(15 / (1 + 1.2**-calc)) * 1000
     },
+
+    goVibrator_test(){
+      this.total_time = 10000
+      this.$store.dispatch('score/regist', this.total_time)
+      this.$store.dispatch('totalScore/regist', this.calcIyashiPoint())
+      // this.$store.dispatch('score/regist', this.calcIyashiPoint());
+      // this.regist()
+      // vibratior.vueに移動
+      this.$router.push('/vibrator');
+    },
     goVibrator() {
       
       // 内部的に保存する
       // this.message = '保存したよ'
-      this.$store.dispatch('score/regist', this.total_time());
-      this.$store.dispatch('totalScore/regist', this.calcIyashiPoint());
+      this.$store.dispatch('score/regist', this.total_time)
+      this.$store.dispatch('totalScore/regist', this.calcIyashiPoint())
       // this.$store.dispatch('score/regist', this.calcIyashiPoint());
       // this.regist()
       // vibratior.vueに移動
