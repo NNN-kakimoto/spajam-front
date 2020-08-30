@@ -1,7 +1,6 @@
 <template>
   <div class="mt-4">
-    <h1 class="h1">Shaker</h1>
-    <img src="~/static/sports_protein_man.png" class="image">
+    <img src="~/static/icon.png" class="image">
     <p>プロテインを作りますか?</p>
     <div>
       <router-link to ="/shake">
@@ -10,12 +9,12 @@
     </div>
     <div class="mt-5">
       <div>
-        <router-link to ="/">
+        <router-link to ="/ranking">
           <button type="button" class="btn btn-secondary">ランキング</button>
         </router-link>
       </div>
       <div class="mt-2">
-        <router-link to ="/">
+        <router-link to="/stock">
           <button type="button" class="btn btn-light">癒しポイント確認</button>
         </router-link>
       </div>
@@ -27,8 +26,18 @@
 export default {}
 </script>
 
-<style>
+<style scoped>
 .image {
-  width: 80%;
+  width: 35%;
+}
+.btn{
+  border-radius: 24px;
+  color: white;
+  background-color: #3B4043;
+  width: 180px;
+  height: 48px;
+  padding: 12px 24px;
+  margin-top: 40px;
+  background-color: #004BB1;
 }
 </style>

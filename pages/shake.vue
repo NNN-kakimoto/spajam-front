@@ -1,18 +1,20 @@
 <template>
   <div class="container">
     <div>
+      <button @click="goVibrator_test">test</button>
       <strong>{{ total_time_min }} : {{ total_time_s }} : {{ total_time_ms }}</strong><br>
       <strong>{{ shake_count }}回</strong><br>
       <img src="~/static/sports_protein_shaker.png" alt="シェイカーの画像">
 
       <div v-if="status === 'init'">
-        <button v-on:click="startShake">シェイク開始!</button>
+        <button class="btn" v-on:click="startShake">シェイク開始!</button>
       </div>
       <div v-else-if="status === 'shake'">
         
       </div>
       <div v-else>
-        <button v-on:click="goVibrator">ブルブルする</button>
+        <button class="btn" v-on:click="goVibrator">ブルブルする</button>
+        <button class="btn" v-on:click="saving">貯蓄する</button>
       </div> 
     </div>
   </div>
@@ -32,9 +34,9 @@ export default {
     }
   },
   computed: {
-    // ...mapState({
-    //   messageData: state => state.message.data
-    // })
+    ...mapState({
+      totalScore: state => parseInt(state.totalScore.data)
+    }),
     total_time_min : function () {
       return ("00" + Math.floor(Math.floor(this.total_time / 1000) / 60)).slice(-2);
     },
@@ -100,20 +102,36 @@ export default {
       const calc = parseInt(standardTime - this.total_time / 1000)
       return parseInt(15 / (1 + 1.2**-calc)) * 1000
     },
+
+    goVibrator_test(){
+      this.total_time = 10000
+      this.$store.dispatch('score/regist', this.total_time)
+      this.$store.dispatch('totalScore/regist', this.calcIyashiPoint())
+      // this.$store.dispatch('score/regist', this.calcIyashiPoint());
+      // this.regist()
+      // vibratior.vueに移動
+      this.$router.push('/vibrator');
+    },
     goVibrator() {
       
       // 内部的に保存する
       // this.message = '保存したよ'
-      this.$store.dispatch('score/regist', this.calcIyashiPoint());
+      this.$store.dispatch('score/regist', this.total_time)
+      this.$store.dispatch('totalScore/regist', this.calcIyashiPoint())
+      // this.$store.dispatch('score/regist', this.calcIyashiPoint());
       // this.regist()
       // vibratior.vueに移動
       this.$router.push('/vibrator');
+    },
+    saving() { 
+      this.$store.dispatch('totalScore/regist', this.totalScore + this.calcIyashiPoint())
+      this.$router.push('/stock');
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;
@@ -128,5 +146,15 @@ strong {
 img {
   width : 70%;
   height : 50%;
+}
+.btn{
+  border-radius: 24px;
+  color: white;
+  background-color: #3B4043;
+  width: 180px;
+  height: 48px;
+  padding: 12px 24px;
+  margin-top: 40px;
+  background-color: #004BB1;
 }
 </style>
