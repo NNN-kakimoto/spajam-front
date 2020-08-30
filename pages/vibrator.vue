@@ -26,7 +26,7 @@ export default {
   computed: {
     ...mapState({
       // messageData: state => state.message.data,
-      shakeScore: state => parseInt(state.score.data)
+      shakeScore: state => parseInt(state.totalScore.data)
     })
   },
   mounted : function () {
@@ -43,7 +43,7 @@ export default {
       this.countDown = shakeScore
       this.countDownTimer()
       // 内部のスコアをゼロ値で保存する
-      this.$store.dispatch('score/remove')
+      this.$store.dispatch('totalScore/remove')
       // 編集が終わったらターミナルで
       // npm run generate
     },
