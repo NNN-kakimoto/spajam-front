@@ -14,6 +14,7 @@
       </div>
       <div v-else>
         <button class="btn" v-on:click="goVibrator">ブルブルする</button>
+        <button class="btn" v-on:click="saving">貯蓄する</button>
       </div> 
     </div>
   </div>
@@ -33,9 +34,9 @@ export default {
     }
   },
   computed: {
-    // ...mapState({
-    //   messageData: state => state.message.data
-    // })
+    ...mapState({
+      totalScore: state => parseInt(state.totalScore.data)
+    }),
     total_time_min : function () {
       return ("00" + Math.floor(Math.floor(this.total_time / 1000) / 60)).slice(-2);
     },
@@ -121,6 +122,10 @@ export default {
       // this.regist()
       // vibratior.vueに移動
       this.$router.push('/vibrator');
+    },
+    saving() { 
+      this.$store.dispatch('totalScore/regist', this.totalScore + this.calcIyashiPoint())
+      this.$router.push('/stock');
     }
   }
 }
